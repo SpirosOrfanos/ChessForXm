@@ -1,12 +1,17 @@
 package com.xm.chess.service.boardservice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import com.xm.chess.domain.Knight;
+import com.xm.chess.domain.Node;
 import com.xm.chess.domain.Piece;
 import com.xm.chess.domain.Position;
 import com.xm.chess.execptions.BoardInitException;
@@ -64,25 +69,43 @@ public class ChessBoard extends Board implements ChessInterface {
 		visited[positionMapping.get(start).intValue()] = true;
 		q.add(position);
 		position.setDistance(0);
-
+		Node node = new Node(position);
+		Position prev = position;
 		while (!q.isEmpty()) {
 			Position p = q.poll();
+			node.next = new Node(p);
 			if (p.equals(end)) {
+				Node current = node;
+				while(current!=null) {
+					System.out.print(current.position + " > ");
+					current = current.next;
+				}		
 				return p.getDistance();
 			}
 			LinkedList<Position> pos = adjustment[positionMapping.get(p).intValue()];
 			for (Position inner : pos) {
+				List<Position> positions = new LinkedList<>();
+				positions.add(p);
+
 				if (!visited[positionMapping.get(inner).intValue()]) {
 					visited[positionMapping.get(p).intValue()] = true;
 					if (inner.equals(end)) {
-						p.setDistance(p.getDistance()+1);
+						node.next.next = new Node(inner);
+						p.setDistance(p.getDistance()+1);		
+						Node current = node;
+						while(current!=null) {
+							System.out.print(current.position + " > ");
+							current = current.next;
+						}
 						return p.getDistance();
 					}
 					inner.setDistance(inner.getDistance()+1);
 					q.add(inner);
+					
 				}
+				
 			}
-			
+			prev = p;
 		}
 		return -1;
 
