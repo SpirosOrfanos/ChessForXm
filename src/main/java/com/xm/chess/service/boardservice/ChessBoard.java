@@ -28,12 +28,13 @@ public class ChessBoard extends Board implements ChessInterface {
 	public ChessBoard(int rows, int columns, AllowedMovesFactory allowedMovesFactory) throws BoardInitException {
 		super(rows, columns, allowedMovesFactory);
 		this.count = 0;
-		if (rows < 8 || columns < 8)
-			throw new BoardInitException("Chess board matrix must be 8 x 8");
+		
 	}
 
 	@Override
-	void initBoard() {
+	void initBoard() throws BoardInitException {
+		if (ROWS < 8 || COLUMNS < 8)
+			throw new BoardInitException("Chess board matrix must be 8 x 8");
 		IntStream.range(0, ROWS).forEach(row -> {
 			IntStream.range(0, COLUMNS).forEach(col -> {
 				Position position = new Position(row, col);

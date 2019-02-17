@@ -44,9 +44,9 @@ public abstract class Board {
 	}
 
 
-	private void init() {
+	private void init() throws BoardInitException{
 		initBoard();
 	}
-	abstract void initBoard();
+	abstract void initBoard() throws BoardInitException;
 
 }
