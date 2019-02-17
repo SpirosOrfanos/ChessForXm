@@ -1,14 +1,12 @@
 package com.xm.chess.service.boardservice;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 import java.util.stream.IntStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xm.chess.domain.Knight;
 import com.xm.chess.domain.Node;
@@ -23,6 +21,7 @@ import com.xm.chess.service.moveservice.AllowedMovesFactory;
  *
  */
 public class ChessBoard extends Board implements ChessInterface {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private int count;
 
 	public ChessBoard(int rows, int columns, AllowedMovesFactory allowedMovesFactory) throws BoardInitException {
@@ -78,7 +77,7 @@ public class ChessBoard extends Board implements ChessInterface {
 			if (p.equals(end)) {
 				Node current = node;
 				while(current!=null) {
-					System.out.print(current.position + " > ");
+					logger.info(current.position + " > ");
 					current = current.next;
 				}		
 				return p.getDistance();
@@ -95,7 +94,7 @@ public class ChessBoard extends Board implements ChessInterface {
 						p.setDistance(p.getDistance()+1);		
 						Node current = node;
 						while(current!=null) {
-							System.out.print(current.position + " > ");
+							logger.info(current.position + " > ");
 							current = current.next;
 						}
 						return p.getDistance();
